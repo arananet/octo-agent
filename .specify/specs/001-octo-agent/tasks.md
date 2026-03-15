@@ -1,28 +1,28 @@
-# Tasks: 001-octo-agent (Core Infrastructure)
+# Tasks: 001-octo-agent (Reference Architecture)
 
 ## Setup & Scaffolding
-- [ ] Initialize TypeScript project (`package.json`, `tsconfig.json`).
-- [ ] Setup `src/` directory structure: `core/`, `agents/`, `guardrails/`, `observability/`.
-- [ ] Create `README.md` introducing the "Octo-Agentic" framework.
+- [ ] Choose your preferred language and framework (e.g., Python/FastAPI, Go, .NET, Node.js).
+- [ ] Setup repository structure separating `core/`, `agents/`, `guardrails/`, and `observability/` (or equivalent microservice boundaries).
+- [ ] Create `README.md` introducing the "Octo-Agentic" reference architecture.
 
 ## Core Nervous System (Blackboard)
-- [ ] Implement `src/core/Blackboard.ts`: Define `Event` interface (`id`, `timestamp`, `agentId`, `eventType`, `payload`, `status`). Create `publish`, `subscribe`, and `getHistory` methods.
-- [ ] Implement `src/observability/AuditLogger.ts`: Subscribe to all `Blackboard` events. Format and write to an append-only log (e.g., `audit.log`).
-- [ ] Create `src/observability/EventReplayer.ts` for root-cause analysis from logs.
+- [ ] Implement the `Blackboard` service: Define the Event schema (`id`, `timestamp`, `agentId`, `eventType`, `payload`, `status`). Create `publish` and `subscribe` mechanisms.
+- [ ] Implement the `AuditLogger`: Subscribe to all Blackboard events and write to an append-only log or DB.
+- [ ] Create an `EventReplayer` utility or endpoint for root-cause analysis.
 
 ## Digital Instincts (Guardrails)
-- [ ] Implement `src/guardrails/GuardrailPerimeter.ts`: Middleware class that intercepts actions proposed to the Blackboard.
-- [ ] Create `src/guardrails/validators/BudgetValidator.ts` (e.g., max $1000).
-- [ ] Create `src/guardrails/validators/EndpointAllowlist.ts` (e.g., only allow `api.company.internal`).
-- [ ] Create `src/guardrails/validators/EthicsFilter.ts` (mock).
+- [ ] Implement `GuardrailPerimeter`: Middleware or API Gateway policy that intercepts actions proposed to the Blackboard.
+- [ ] Create `BudgetValidator` (e.g., max $1000).
+- [ ] Create `EndpointAllowlist` (e.g., only allow internal `.company.internal` APIs).
+- [ ] Create `EthicsFilter` (SLM-based or heuristic).
 
 ## The Cephalopod (Agents)
-- [ ] Define abstract base class `src/agents/AutonomousArm.ts`: Needs a `subscribe` pattern matching specific task types on the Blackboard. Needs an `execute` method that proposes an action to the Guardrail.
-- [ ] Define `src/agents/StrategicNode.ts` (Central Brain): Handles goal decomposition and conflict resolution when the Guardrail rejects an `AutonomousArm`'s action.
-- [ ] Create specialized mock agents extending `AutonomousArm` (e.g., `FinanceAgent.ts`, `LogisticsAgent.ts`).
+- [ ] Define the base `AutonomousArm` interface/contract: Needs a `subscribe` pattern matching specific task types on the Blackboard. Needs an `execute` -> `propose` flow.
+- [ ] Define `StrategicNode` (Central Brain): Handles goal decomposition and conflict resolution when the Guardrail rejects an `AutonomousArm`'s action.
+- [ ] Create specialized mock agents extending `AutonomousArm` (e.g., `FinanceAgent`, `LogisticsAgent`).
 
 ## Orchestration Simulation (Testing the Architecture)
-- [ ] Create `src/main.ts`. Instatiate the `Blackboard`, `AuditLogger`, `GuardrailPerimeter`, `StrategicNode`, and specialized agents.
+- [ ] Create an entry point or API server. Instantiate the `Blackboard`, `AuditLogger`, `GuardrailPerimeter`, `StrategicNode`, and specialized agents.
 - [ ] Publish a high-level goal to the Blackboard (e.g., `PROCESS_COMPLEX_VENDOR_INVOICE`).
 - [ ] Simulate the Strategic Node breaking it down into subtasks (`VALIDATE_INVOICE_LOGISTICS`, `APPROVE_INVOICE_FINANCE`).
 - [ ] Simulate the `LogisticsAgent` executing successfully.
